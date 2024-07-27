@@ -35,11 +35,11 @@ function SearchBar() {
         type="text"
         placeholder="Add text or Start speaking"
         className="p-2 w-full border-2 border-blue-700 rounded-md outline-none"
-        value={transcript}
+        
         readOnly
       />
       {showTranscript && (
-        <div className="mt-4 p-2 border-2 border-blue-700 rounded-md">
+        <div>
           {transcript}
         </div>
       )}

@@ -1,9 +1,10 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import SpeechRecognition, { useSpeechRecognition } from 'react-speech-recognition';
 
 function SearchBar() {
   const { transcript, browserSupportsSpeechRecognition } = useSpeechRecognition();
   const [isRecording, setIsRecording] = useState(false);
+  const [showTranscript, setShowTranscript] = useState(false);
 
   const handleStartRecording = () => {
     if (browserSupportsSpeechRecognition) {
@@ -19,9 +20,9 @@ function SearchBar() {
     SpeechRecognition.stopListening();
   };
 
-  const handlePauseRecording = () => {
-    // Check if there's a pause function or stopListening is used for pausing
+  const handleGenerateNotes = () => {
     SpeechRecognition.stopListening();
+    setShowTranscript(true);
   };
 
   if (!browserSupportsSpeechRecognition) {
@@ -29,7 +30,7 @@ function SearchBar() {
   }
 
   return (
-    <div className="relative mx-36 mt-24">
+    <div className="relative mx-4 md:mx-36 mt-24">
       <input
         type="text"
         placeholder="Add text or Start speaking"
@@ -37,10 +38,12 @@ function SearchBar() {
         value={transcript}
         readOnly
       />
-      <div>
-        {transcript}
-      </div>
-      <div className="fixed bottom-4 left-36 right-36">
+      {showTranscript && (
+        <div className="mt-4 p-2 border-2 border-blue-700 rounded-md">
+          {transcript}
+        </div>
+      )}
+      <div className="fixed bottom-4 lg:left-36 lg:right-36">
         {isRecording ? (
           <div className="flex gap-2">
             <button
@@ -50,10 +53,10 @@ function SearchBar() {
               Stop Recording
             </button>
             <button
-              className="bg-yellow-700 text-white font-medium rounded-md p-2 flex-grow"
-              onClick={handlePauseRecording}
+              className="bg-green-900 text-white font-medium rounded-md p-2 flex-grow"
+              onClick={handleGenerateNotes}
             >
-              Pause Recording
+              Generate Notes
             </button>
           </div>
         ) : (
